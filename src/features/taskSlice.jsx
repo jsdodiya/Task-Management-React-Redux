@@ -8,10 +8,10 @@ const initialState = {
     status: 'All'
 }
 
-export const fetchTodo = createAsyncThunk('tasks/fetchTodo', async() =>{
-    const response = await fetch('https://jsonplaceholder.typicode.com/todos?_limit=5')
+export const fetchTodo = createAsyncThunk('tasks/fetchTodo', async () => {
+    const response = await fetch('https://jsonplaceholder.typicode.com/todos?_limit=3')
     const data = await response.json()
-    return data,map(task =>(
+    return data.map(task => (
         {
             id: task.id,
             title: task.title,
@@ -25,23 +25,27 @@ export const fetchTodo = createAsyncThunk('tasks/fetchTodo', async() =>{
 const taskSlice = createSlice({
     name: 'tasks',
     initialState,
-    reducers:{
+    reducers: {
+        addTask: (state, action) => {
+            state.tasks.push(action.payload)
+        }
 
     },
-    extraReducers: (builder) =>{
-        builder.addCase(fetchTodo.pending, (state)=>{
+    extraReducers: (builder) => {
+        builder.addCase(fetchTodo.pending, (state) => {
             state.loading = true;
             state.error = null
-        }),
-        builder.addCase(fetchTodo.fulfilled,(state, action) =>{
-            state.loading = false,
-            state.tasks = action.payload
-        }),
-        builder.addCase(fetchTodo.rejected, (state, action)=>{
-            state.loading = false,
-            state.error = action.error.message
         })
+            .addCase(fetchTodo.fulfilled, (state, action) => {
+                state.loading = false,
+                    state.tasks = action.payload
+            })
+            .addCase(fetchTodo.rejected, (state, action) => {
+                state.loading = false,
+                    state.error = action.error.message
+            })
     }
 })
 
+export const { addTask } = taskSlice.actions
 export default taskSlice.reducer

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { editTask } from '../features/taskSlice';
 
 const EditTask = ({ task }) => {
     const [isEdit, setIsEdit] = useState(false);
@@ -10,10 +11,7 @@ const EditTask = ({ task }) => {
 
     const handleSave = () => {
         // Dispatch an action to update the task in the store
-        dispatch({
-            type: 'UPDATE_TASK',
-            payload: { id: task.id, title, description, status },
-        });
+        dispatch(editTask({ id: task.id, title, description, status }));
         setIsEdit(false);
     };
 

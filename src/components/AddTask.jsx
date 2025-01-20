@@ -8,7 +8,7 @@ import { addTask } from '../features/taskSlice';
 const AddTaskForm = () => {
   const [title, setTaskTitle] = useState('');
   const [description, setTaskDescription] = useState('');
-  const [status, setStatus] = useState('to do');
+  const [status, setStatus] = useState('To Do');
   const dispatch = useDispatch()
 
   const handleSubmit = (e) => {
